@@ -1,19 +1,20 @@
-import { useState } from "react";
+import { useContext } from 'react'
+import { FiltersContext } from '../context/filters.jsx'
 
-export function useFIlters() {
-  const [filters, setFilters] = useState({
-    category: "all",
-    minPrice: 0,
-  });
+export function useFilters () {
+  const { filters, setFilters } = useContext(FiltersContext)
 
   const filterProducts = (products) => {
-    return products.filter((product) => {
+    return products.filter(product => {
       return (
         product.price >= filters.minPrice &&
-        (filters.category === "all" || product.category === filters.category)
-      );
-    });
-  };
+        (
+          filters.category === 'all' ||
+          product.category === filters.category
+        )
+      )
+    })
+  }
 
-  return { setFilters, filterProducts };
+  return { filters, filterProducts, setFilters }
 }
